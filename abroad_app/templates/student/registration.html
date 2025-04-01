@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Registration</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <!-- Optional Bootstrap JS (for interactive components) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <!-- Back to Dashboard Button -->
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <!-- Logout Button -->
+                                <form action="{% url 'logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+                                </form>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Student Registration</h1>
+    
+            <!-- Display Success Messages -->
+            {% if messages %}
+                <div class="alert alert-success">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <!-- Registration Form -->
+            <form method="POST" class="p-4 border rounded shadow-sm bg-light">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">Phone Number:</label>
+                    <input type="text" id="phone_number" name="phone_number" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <textarea id="address" name="address" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dob" class="form-label">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="stream" class="form-label">Stream:</label>
+                    <select id="stream" name="stream" class="form-select" required>
+                        <option value="" disabled selected>Select your stream</option>
+                        <option value="Science - Biology">Science Stream - Biology</option>
+                        <option value="Science - Computer">Science Stream - Computer</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Humanities">Humanities</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="preferred_courses" class="form-label">Preferred Courses:</label>
+                    <input type="text" id="preferred_courses" name="preferred_courses" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="preferred_countries" class="form-label">Preferred Countries:</label>
+                    <input type="text" id="preferred_countries" name="preferred_countries" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="marks_12th" class="form-label">12th Marks % :</label>
+                    <input type="number" id="marks_12th" name="marks_12th" class="form-control" step="0.01" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+        </div>
+    </body>
+
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        .container {
+            max-width: 600px;
+        }
+    </style>
+</html>

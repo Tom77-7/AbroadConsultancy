@@ -14,12 +14,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# filepath: d:\AbroadProject\abroad_Project\urls.py
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('', include('authentication.urls')),
-    path('', lambda request: redirect('login')),
-    path('admin/', admin.site.urls),
+    path('', lambda request: redirect('login')),  # Redirect root URL to login
+    path('auth/', include('authentication.urls')),  # Authentication app URLs
+    path('admin/', admin.site.urls),  # Admin panel
+    path('app/', include('abroad_app.urls')),  # Abroad app URLs
 ]
