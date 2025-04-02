@@ -27,3 +27,27 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.student_id})"
+    
+class Course(models.Model):
+    STREAM_CHOICES = [
+        ('Science - Biology', 'Science Stream - Biology'),
+        ('Science - Computer', 'Science Stream - Computer'),
+        ('Commerce', 'Commerce'),
+        ('Humanities', 'Humanities'),
+    ]
+
+    course_name = models.CharField(max_length=100)
+    university = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    stream = models.CharField(
+        max_length=50,
+        choices=STREAM_CHOICES,
+        null=True,  # Allow NULL for existing rows
+        blank=True  # Allow blank values in forms
+    )
+    basic_requirements = models.TextField()
+    minimum_marks = models.FloatField()
+    ielts_score = models.FloatField()
+
+    def __str__(self):
+        return f"{self.course_name} - {self.university} ({self.country})"
