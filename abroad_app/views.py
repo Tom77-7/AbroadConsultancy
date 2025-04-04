@@ -135,3 +135,8 @@ def registered_students(request):
     # Fetch all registered students
     students = Student.objects.all().order_by('student_id')  # Order by Student ID
     return render(request, 'student/registered_students.html', {'students': students})
+
+def courses_list(request):
+    # Fetch all courses
+    courses = Course.objects.all().order_by('course_name')  # Order by course name
+    return render(request, 'course/courses_list.html', {'courses': courses})
