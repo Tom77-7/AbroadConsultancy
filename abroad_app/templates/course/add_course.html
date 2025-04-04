@@ -6,6 +6,9 @@
         <title>Add Course</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     </head>
     <body>
         <!-- Navbar -->
@@ -15,17 +18,19 @@
             </div>
         </nav>
 
+        <!-- Display Django Messages -->
+        {% if messages %}
+        <div id="message-container" class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="container mt-5">
             <h1 class="text-center mb-4">Add Course</h1>
-
-            <!-- Display Success Messages -->
-            {% if messages %}
-                <div class="alert alert-success">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
 
             <!-- Course Addition Form -->
             <form method="POST" class="p-4 border rounded shadow-sm bg-light">
@@ -55,7 +60,7 @@
                         <option value="Humanities">Humanities</option>
                     </select>
                 </div>
-                
+
                 <div class="mb-3">
                     <label for="basic_requirements" class="form-label">Basic Requirements:</label>
                     <textarea id="basic_requirements" name="basic_requirements" class="form-control" rows="3" required></textarea>
@@ -75,4 +80,15 @@
             </form>
         </div>
     </body>
+
+    <script>
+        // Auto-dismiss messages after 3 seconds
+        setTimeout(() => {
+            const messageContainer = document.getElementById('message-container');
+            if (messageContainer) {
+                messageContainer.style.display = 'none';
+            }
+        }, 3000); // 3000 milliseconds = 3 seconds
+    </script>
+    
 </html>

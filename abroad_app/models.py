@@ -10,7 +10,7 @@ class Student(models.Model):
 
     student_id = models.CharField(max_length=10, unique=True, editable=False)
     name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=20)  
     address = models.TextField()
     dob = models.DateField()  # Date of Birth field
     stream = models.CharField(max_length=50, choices=STREAM_CHOICES)  # Dropdown for Stream

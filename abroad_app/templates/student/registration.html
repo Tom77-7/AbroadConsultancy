@@ -37,17 +37,21 @@
             </div>
         </nav>
 
+        <!-- Display Django Messages -->
+        {% if messages %}
+        <div id="message-container" class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <div class="container mt-5">
             <h1 class="text-center mb-4">Student Registration</h1>
     
-            <!-- Display Success Messages -->
-            {% if messages %}
-                <div class="alert alert-success">
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
+            
             <!-- Registration Form -->
             <form method="POST" class="p-4 border rounded shadow-sm bg-light">
                 {% csrf_token %}
@@ -71,6 +75,7 @@
                     <input type="date" id="dob" name="dob" class="form-control" required>
                 </div>
 
+                <!-- Stream Dropdown -->
                 <div class="mb-3">
                     <label for="stream" class="form-label">Stream:</label>
                     <select id="stream" name="stream" class="form-select" required>
@@ -81,15 +86,29 @@
                         <option value="Humanities">Humanities</option>
                     </select>
                 </div>
-
+                
+                <!-- Preferred Courses Dropdown -->
                 <div class="mb-3">
                     <label for="preferred_courses" class="form-label">Preferred Courses:</label>
-                    <input type="text" id="preferred_courses" name="preferred_courses" class="form-control" required>
+                    <select id="preferred_courses" name="preferred_courses" class="form-select" multiple required>
+                        {% for course in courses %}
+                            <option value="{{ course.course_name }}" data-stream="{{ course.stream }}" data-country="{{ course.country }}">
+                                {{ course.course_name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) key to select multiple courses.</small>
                 </div>
 
+                <!-- Preferred Countries Dropdown -->
                 <div class="mb-3">
                     <label for="preferred_countries" class="form-label">Preferred Countries:</label>
-                    <input type="text" id="preferred_countries" name="preferred_countries" class="form-control" required>
+                    <select id="preferred_countries" name="preferred_countries" class="form-select" multiple required>
+                        {% for country in countries %}
+                            <option value="{{ country }}">{{ country }}</option>
+                        {% endfor %}
+                    </select>
+                    <small class="form-text text-muted">Hold down the Ctrl (Windows) or Command (Mac) key to select multiple countries.</small>
                 </div>
 
                 <div class="mb-3">
@@ -110,4 +129,47 @@
             max-width: 600px;
         }
     </style>
+
+        <script>
+            document.getElementById('stream').addEventListener('change', function () {
+            const selectedStream = this.value;
+            const courseOptions = document.querySelectorAll('#preferred_courses option');
+            const countryOptions = document.querySelectorAll('#preferred_countries option');
+
+            // Filter courses based on the selected stream
+            const visibleCountries = new Set();
+            courseOptions.forEach(option => {
+                if (option.getAttribute('data-stream') === selectedStream || selectedStream === "") {
+                    option.style.display = 'block'; // Show matching courses
+                    visibleCountries.add(option.getAttribute('data-country')); // Collect countries for visible courses
+                } else {
+                    option.style.display = 'none'; // Hide non-matching courses
+                    option.selected = false; // Deselect hidden courses
+                }
+            });
+
+            // Filter countries based on the visible courses
+            countryOptions.forEach(option => {
+                if (visibleCountries.has(option.value)) {
+                    option.style.display = 'block'; // Show matching countries
+                } else {
+                    option.style.display = 'none'; // Hide non-matching countries
+                    option.selected = false; // Deselect hidden countries
+                }
+            });
+
+            // Debugging
+            console.log('Selected Stream:', selectedStream);
+            console.log('Visible Countries:', Array.from(visibleCountries));
+        });
+
+        // Auto-dismiss messages after 3 seconds
+        setTimeout(() => {
+            const messageContainer = document.getElementById('message-container');
+            if (messageContainer) {
+                messageContainer.style.display = 'none';
+            }
+        }, 3000); // 3000 milliseconds = 3 seconds
+        </script>
+
 </html>
