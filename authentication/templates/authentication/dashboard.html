@@ -3,22 +3,79 @@
 {% block title %}Dashboard - Abroad Consultancy Service{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2 class="text-center my-4">Abroad Consultancy Service Dashboard</h2>
-    
-    <!-- Add the Student Registration button here -->
-    <div class="text-center my-4">
-        <a href="/app/register/" class="btn btn-primary btn-lg">Register a Student</a>
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="jumbotron text-center bg-primary text-white p-5 rounded">
+        <h1 class="display-4">Welcome to Abroad Consultancy Service</h1>
+        <p class="lead">Your one-stop solution for student registration, course management, and matching the best opportunities abroad.</p>
     </div>
 
-    <!-- Add the Add Course button here -->
-    <div class="text-center my-4">
-        <a href="/app/add-course/" class="btn btn-success btn-lg">Add a Course</a>
+    <!-- Statistics Section -->
+    <div class="row text-center my-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Registered Students</h5>
+                    <p class="card-text">View the list of all registered students.</p>
+                    <a href="{% url 'registered_students' %}" class="btn btn-warning">View Students</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Available Courses</h5>
+                    <p class="card-text display-4 text-success">{{ course_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Matched Courses</h5>
+                    <p class="card-text display-4 text-info">{{ matched_course_count }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Add the Match Courses button here -->
-    <div class="text-center my-4">
-        <a href="/app/match-courses/" class="btn btn-info btn-lg">Match Courses</a>
+    <!-- Action Buttons Section -->
+    <div class="row text-center my-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Register a Student</h5>
+                    <p class="card-text">Add a new student to the system.</p>
+                    <a href="/app/register/" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-book fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Add a Course</h5>
+                    <p class="card-text">Add a new course to the database.</p>
+                    <a href="/app/add-course/" class="btn btn-success">Add Course</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <i class="fas fa-search fa-3x text-info mb-3"></i>
+                    <h5 class="card-title">Match Courses</h5>
+                    <p class="card-text">Find the best courses for students.</p>
+                    <a href="/app/match-courses/" class="btn btn-info">Match Courses</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>&copy; 2025 Abroad Consultancy Service. All rights reserved.</p>
+</footer>
 {% endblock %}

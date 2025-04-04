@@ -6,6 +6,7 @@ from django.contrib.messages import get_messages
 from django.shortcuts import render, redirect
 from .models import Student, Course
 from django.contrib import messages
+from .models import Student
 
 def register_student(request):
 
@@ -63,7 +64,7 @@ def add_course(request):
     storage = get_messages(request)
     for _ in storage:
         pass
-    
+
     if request.method == 'POST':
         course_name = request.POST.get('course_name')
         university = request.POST.get('university')
@@ -130,3 +131,7 @@ def checkout_course(request):
             messages.error(request, "Invalid course selection. Please try again.")
             return redirect('match_courses')
         
+def registered_students(request):
+    # Fetch all registered students
+    students = Student.objects.all().order_by('student_id')  # Order by Student ID
+    return render(request, 'student/registered_students.html', {'students': students})
