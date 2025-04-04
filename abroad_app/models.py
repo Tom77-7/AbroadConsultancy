@@ -48,6 +48,27 @@ class Course(models.Model):
     basic_requirements = models.TextField()
     minimum_marks = models.FloatField()
     ielts_score = models.FloatField()
+    fees = models.IntegerField(default=200000)
 
     def __str__(self):
         return f"{self.course_name} - {self.university} ({self.country})"
+    
+    from django.db import models
+
+class Checkout(models.Model):
+    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    student_custom_id = models.CharField(max_length=10, editable=False)  # Renamed field
+    total_fees = models.FloatField()
+    amount_paid = models.FloatField()
+    payment_verified = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Automatically set the student_custom_id from the related student object
+        if self.student and not self.student_custom_id:
+            self.student_custom_id = self.student.student_id
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Checkout for {self.student.name} - {self.course.course_name}"

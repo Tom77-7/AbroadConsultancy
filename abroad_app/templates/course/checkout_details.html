@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Checkout Details</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cerulean/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+            </div>
+        </nav>
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Checkout Details</h1>
+
+            <!-- Display Checkout Records -->
+            {% if checkouts %}
+            <table class="table table-bordered table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Student Name</th>
+                        <th>Student ID</th>
+                        <th>Course Name</th>
+                        <th>University</th>
+                        <th>Total Fees</th>
+                        <th>Amount Paid</th>
+                        <th>Payment Verified</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for checkout in checkouts %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ checkout.student.name }}</td>
+                        <td>{{ checkout.student.student_id }}</td>
+                        <td>{{ checkout.course.course_name }}</td>
+                        <td>{{ checkout.course.university }}</td>
+                        <td>₹{{ checkout.total_fees }}</td>
+                        <td>₹{{ checkout.amount_paid }}</td>
+                        <td>
+                            {% if checkout.payment_verified %}
+                                <span class="badge bg-success">Verified</span>
+                            {% else %}
+                                <span class="badge bg-danger">Not Verified</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ checkout.created_at|date:"d M Y, H:i" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-center">No checkout records found.</p>
+            {% endif %}
+        </div>
+    </body>
+</html>
