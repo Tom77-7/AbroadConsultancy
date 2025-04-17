@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,14 +78,13 @@ WSGI_APPLICATION = 'abroad_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'abroad_db',
-        'USER': 'tomsaji',
-        'PASSWORD': 'tomsaji123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME', 'abroad_db'),  # Database name
+        'USER': os.getenv('DB_USER', 'tomsaji'),  # PostgreSQL username
+        'PASSWORD': os.getenv('DB_PASSWORD', 'tomsaji123'),  # Password for the database user
+        'HOST': os.getenv('DB_HOST', 'localhost'),  # Hostname (default: localhost)
+        'PORT': os.getenv('DB_PORT', '5432'),  # Port where PostgreSQL is running
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

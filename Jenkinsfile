@@ -1,29 +1,39 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git branch: 'main',
-                    credentialsId: 'AbroadID', // The ID you set earlier
-                    url: 'https://github.com/Tom77-7/AbroadConsultancy.git'
+                echo 'Checking out code...'
+                checkout([ 
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']], 
+                    extensions: [], 
+                    userRemoteConfigs: [[ 
+                        url: 'https://github.com/Tom77-7/AbroadConsultancy.git', 
+                        credentialsId: 'AbroadID' 
+                    ]] 
+                ])
             }
         }
+
         stage('Build') {
             steps {
-                echo 'Building project...'
-                // Add build steps here
+                echo 'Building Docker Compose services...'
+                bat 'docker-compose -p abroadconsultancy build'
             }
         }
+
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
-                // Add test execution commands here
+                echo 'Skipping tests for now...'
             }
         }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-                // Add deployment steps here
+                echo 'Deploying the application using Docker Compose...'
+                bat 'docker-compose -p abroadconsultancy up -d'
             }
         }
     }
