@@ -20,7 +20,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Docker Compose services...'
-                bat 'docker-compose -p abroadconsultancy build'
+                bat 'docker-compose -p abroadproject build'
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying the application using Docker Compose...'
-                bat 'docker-compose -p abroadconsultancy up -d'
+                bat 'docker-compose -p abroadproject up -d'
             }
         }
     }
